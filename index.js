@@ -1,7 +1,20 @@
-var http = require('http');
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 5001;
 
-//create a server object:
-http.createServer(function (req, res) {
-  res.write('Hello World!'); //write a response to the client
-  res.end(); //end the response
-}).listen(8080);
+// Middleware to parse JSON
+app.use(express.json());
+
+// Import routes
+const userRoutes = require('./routes/users');
+
+// Use routes
+app.use('/users', userRoutes);
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
